@@ -32,3 +32,8 @@ size_t int_vector_get_capacity(const IntVector *v)
 {
 	return v->size;
 } 
+
+int int_vector_resize(IntVector *v, size_t new_size) 
+{
+	if ( v->used + new) // realloc Нужен
+}
