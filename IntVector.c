@@ -17,3 +17,18 @@ IntVector *int_vector_new(size_t initial_capacity)
     return 0;
 }
 		  
+void int_vector_free(IntVector *v)
+{
+	free (v->ptr);
+	v->size = v->used = 0;
+}
+
+size_t int_vector_get_size(const IntVector *v)
+{
+	return v->used;
+}
+
+size_t int_vector_get_capacity(const IntVector *v)
+{
+	return v->size;
+} 
