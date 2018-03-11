@@ -84,3 +84,15 @@ int int_vector_get_item ( const IntVector *v, size_t index )
 	
 	return v -> ptr [index];
 }
+
+void int_vector_set_item ( IntVector *v, size_t index, int item )
+{
+	if (index > v -> size - 1) {
+		printf ("Out of the vector\n");
+		return 0;
+	}
+	
+	v -> used ++;
+	
+	v -> ptr [index] = item;
+}
