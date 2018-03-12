@@ -13,7 +13,7 @@ IntVector *int_vector_new(size_t initial_capacity) //Создает массив
 	    }
 	    array -> size = initial_capacity;
 				   
-        array -> ptr = calloc (array -> size , sizeof ( int ));
+            array -> ptr = calloc (array -> size , sizeof ( int ));
 				   
 	    if (array -> ptr == NULL) {
 	        printf ("Error\n");
@@ -93,14 +93,15 @@ int int_vector_shrink_to_fit(IntVector *v) // Уменьшает емкость 
 {     
 		
 		v -> size = v -> used;
-        v -> ptr = realloc( v -> ptr, (v -> used) * sizeof(int));
+                v -> ptr = realloc( v -> ptr, (v -> used) * sizeof(int));
 
 		if (v -> ptr == NULL ) {
 			printf("\nError\n");
-            return -1;
-        }
-		else
-        return 0;
+                        return -1;
+                }
+		else {
+                return 0;
+		}
 }
 
 		
