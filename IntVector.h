@@ -5,7 +5,8 @@ typedef struct {
 	size_t *ptr;
     size_t size;
     size_t used;
-} IntVector ;
+} IntVector;
+
 
 IntVector *int_vector_new ( size_t initial_capacity );
 IntVector *int_vector_copy ( const IntVector *v );
