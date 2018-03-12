@@ -95,7 +95,7 @@ int int_vector_shrink_to_fit(IntVector *v) // Уменьшает емкость 
 		v -> size = v -> used;
         v -> ptr = realloc( v -> ptr, (v -> used) * sizeof(int));
 
-		if (v == NULL ) {
+		if (v -> ptr == NULL ) {
 			printf("\nError\n");
             return -1;
         }
