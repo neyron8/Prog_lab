@@ -110,7 +110,7 @@ int int_vector_reserve ( IntVector *v, size_t new_capacity ) // Изменить
 {
 	if ( new_capacity > v -> size ) {
 	
-		v -> start = realloc ( v -> start, new_capacity * sizeof ( int ) );
+		v -> ptr = realloc ( v -> ptr, new_capacity * sizeof ( int ) );
 		if ( v == NULL ) {
 			printf ("Error of reallocation\n");
 			return -1;
@@ -140,7 +140,7 @@ void int_vector_pop_back ( IntVector *v ) // Удаляет последний �
 		return;
 	}
 
-	v -> start [ v -> used - 1] = 0;
+	v -> ptr [ v -> used - 1] = 0;
 	v -> used --;
 }
 
@@ -154,7 +154,7 @@ void int_vector_print ( IntVector *v ) //  Печатает массив
 	
 	
 	for (size_t i = 0; i < v -> used; i++ ) {
-		printf (" %d", v -> start [i] );
+		printf (" %d", v -> ptr [i] );
 	}
 	
 }
@@ -163,7 +163,7 @@ int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет ра
 {	
 	if ( new_size > v -> size ) {
 	
-		v -> start = realloc ( v -> start, new_size * sizeof ( int ) );
+		v -> ptr = realloc ( v -> ptr, new_size * sizeof ( int ) );
 		if ( v == NULL ) {
 			printf ("Error\n");
 			return -1;
@@ -172,7 +172,7 @@ int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет ра
 		v -> size = new_size;
 		
 		for ( size_t i = v -> used; i < v -> size; i++ ) {
-			v -> start [ i ] = 0;
+			v -> ptr [ i ] = 0;
 		}
 		
 		v -> used = new_size;
@@ -183,7 +183,7 @@ int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет ра
 	if ( new_size > v -> used && new_size <= v -> size ) {
 		
 		for ( size_t i = v -> used; i < new_size; i++ ) {
-			v -> start [ i ] = 0;
+			v -> ptr [ i ] = 0;
 		}
 		
 		v -> used = new_size;
@@ -201,21 +201,21 @@ int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет ра
 
 int int_vector_push_back ( IntVector *v, int item )
 {
-	if ( v -> used  <= v -> size-1 ) {
-		v -> start [ v -> used ] = item;
+	if ( v -> used  <= v -> size - 1 ) {
+		v -> ptr [ v -> used ] = item;
 		v -> used ++;
 		return 0;
 	}
 	else
 		{
-			v -> start = realloc ( v -> start, v -> size * 2 * sizeof ( int ) );
+			v -> ptr = realloc ( v -> ptr, v -> size * 2 * sizeof ( int ) );
 			if ( v == NULL ) {
 				printf ("Error\n");
 				return -1;
 			}
 		
 			v -> size = v -> size * 2;
-			v -> start [ v -> used ] = item;
+			v -> ptr [ v -> used ] = item;
 			v -> used ++;
 			return 0;
 		}
