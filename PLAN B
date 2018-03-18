@@ -300,6 +300,7 @@ int main ()
 	printf("\n");
 
 
+
 	int_vector_push_back ( mass, 12);
 	int_vector_push_back ( mass, 15);
 	int_vector_print ( mass );
@@ -324,5 +325,10 @@ int main ()
     printf("Capacity  %d\n",mass->size);
 	printf("Size  %d\n",mass->used);
 	int_vector_reserve ( mass, 1 );
+
+	printf("Trying to free vector and print them\n");
+	int_vector_free(&mass);
+	int_vector_print ( mass );
+
 	return 0;
 }
