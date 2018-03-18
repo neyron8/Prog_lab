@@ -3,6 +3,7 @@
 
 int main ()
 {
+	int flag;
 	IntVector *mass = int_vector_new ( 4 );
   
 	printf ("\tVector with 4 elements(empty)\n");
@@ -10,8 +11,8 @@ int main ()
 	int_vector_print ( mass );
 	
 	int_vector_set_item ( mass, 0, 1 );
-  int_vector_set_item ( mass, 1, 2 );
-  int_vector_set_item ( mass, 2, 3 );
+        int_vector_set_item ( mass, 1, 2 );
+        int_vector_set_item ( mass, 2, 3 );
  
 	
 	int_vector_print ( mass );
@@ -19,9 +20,9 @@ int main ()
 	printf ("\tError block\n");
 	
 	printf("%d",int_vector_get_item ( mass, 0 ));
-  printf("%d",int_vector_get_item ( mass, 1 ));
-  printf("%d",int_vector_get_item ( mass, 2 ));
-  printf("%d",int_vector_get_item ( mass, 3 ));
+        printf("%d",int_vector_get_item ( mass, 1 ));
+        printf("%d",int_vector_get_item ( mass, 2 ));
+        printf("%d",int_vector_get_item ( mass, 3 ));
 	
 	int_vector_set_item ( mass, 42, 25 );
 	
@@ -93,15 +94,10 @@ int main ()
 
 	int_vector_pop_back ( mass );
 	
-	int_vector_print ( mass, "mass" );
+	int_vector_print ( mass );
 	
-	number = mass -> ptr [ 1 ];
-	printf ("2nd = %d\n", number);	
 	
 	int_vector_free ( &mass );
-
-	printf ("\tEnd of operation\n\n");
-	printf ("\tNext ->");
 	
 	
 	printf ("\tShrink vector\n");
@@ -111,7 +107,7 @@ int main ()
 	answer = int_vector_push_back ( mass, 1 );
 	answer = int_vector_push_back ( mass, 2 );
 	
-	int_vector_print ( mass, "mass" );
+	int_vector_print ( mass );
 	
 	answer = int_vector_shrink_to_fit ( mass );
 	
@@ -122,9 +118,6 @@ int main ()
 	}
 	
 	int_vector_print ( mass, "mass" );
-	
-	number = mass -> ptr [ 2 ];
-	printf ("3rd = %d\n", number);
 	
 	int_vector_free ( &mass );
 	
@@ -140,7 +133,7 @@ int main ()
 	answer = int_vector_push_back ( mass, 1 );
 	answer = int_vector_push_back ( mass, 2 );
 	
-	int_vector_print ( mass, "mass" );
+	int_vector_print ( mass );
 	
 	answer = int_vector_resize ( mass, 5);
 	
@@ -150,57 +143,14 @@ int main ()
 		printf ("NOT OK !!!\n");
 	}
 	
-	int_vector_print ( mass, "mass" );
+	int_vector_print ( mass);
 	
-	number = mass -> ptr [ 1 ];
-	printf ("2th = %d\n", number);
 	
-	number = mass -> ptr [ 2 ];
-	printf ("3th = %d\n", number);
 	
-	number = mass -> ptr [ 3 ];
-	printf ("4th = %d\n", number);	
-	
-	number = mass -> ptr [ 4 ];
-	printf ("5th = %d\n", number);
-	
-	number = mass -> ptr [ 5 ];
-	printf ("6th = %d\n", number);
-	
-	number = mass -> ptr [ 6 ];
-	printf ("7th = %d\n", number);
-	
-	number = mass -> ptr [ 7 ];
-	printf ("8th = %d\n", number);
+	int_vector_print ( mass );
 	
 	int_vector_free ( &mass );
 	
-	printf ("\tEnd of operation\n\n");
-	printf ("\tNext ->");
-	
-	
-	printf ("\tReserve\n");
-	
-	mass = int_vector_new ( 3 );
-	
-	int_vector_print ( mass, "mass" );
-	
-	answer = int_vector_reserve ( mass, 4 );
-	
-	if ( answer == 0 ) {
-		printf ("OK !\n");
-	}else{
-		printf ("NOT OK !!!\n");
-	}
-	
-	int_vector_print ( mass, "mass" );
-	
-	int_vector_free ( &mass );
-	
-	printf ("\tEnd of operation\n\n");
-	printf ("\tNext ->");
-	
-	printf ("\tEnd.\n");
 
 	return 0;
   }
