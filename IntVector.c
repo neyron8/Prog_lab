@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "IntVector.h"
 
 IntVector *int_vector_new(size_t initial_capacity) //Создает массив нулевого размера.
@@ -107,7 +106,7 @@ int int_vector_shrink_to_fit(IntVector *v) // Уменьшает емкость 
 		
 }
 
-int int_vector_reserve ( IntVector *v, size_t new_capacity )
+int int_vector_reserve ( IntVector *v, size_t new_capacity ) // Изменить емкость массива.
 {
 	if ( new_capacity > v -> size ) {
 	
@@ -134,7 +133,7 @@ int int_vector_reserve ( IntVector *v, size_t new_capacity )
 }
 		
 
-void int_vector_pop_back ( IntVector *v )
+void int_vector_pop_back ( IntVector *v ) // Удаляет последний элемент из массива.
 {
 	if ( v -> used == 0 ) {
 		printf ("Error\n");
@@ -145,7 +144,7 @@ void int_vector_pop_back ( IntVector *v )
 	v -> used --;
 }
 
-void int_vector_print ( IntVector *v )
+void int_vector_print ( IntVector *v ) //  Печатает массив
 {
 
 	if ( v == NULL) {
@@ -160,7 +159,7 @@ void int_vector_print ( IntVector *v )
 	
 }
 
-int int_vector_resize ( IntVector *v, size_t new_size )
+int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет размер массива.
 {	
 	if ( new_size > v -> size ) {
 	
@@ -197,5 +196,28 @@ int int_vector_resize ( IntVector *v, size_t new_size )
 		
 	}
 	
+	return -1;
+}
+
+int int_vector_push_back ( IntVector *v, int item )
+{
+	if ( v -> used  <= v -> size-1 ) {
+		v -> start [ v -> used ] = item;
+		v -> used ++;
+		return 0;
+	}
+	else
+		{
+			v -> start = realloc ( v -> start, v -> size * 2 * sizeof ( int ) );
+			if ( v == NULL ) {
+				printf ("Error\n");
+				return -1;
+			}
+		
+			v -> size = v -> size * 2;
+			v -> start [ v -> used ] = item;
+			v -> used ++;
+			return 0;
+		}
 	return -1;
 }
