@@ -95,7 +95,7 @@ int main ()
 	
 	int_vector_print ( mass, "mass" );
 	
-	number = mass -> start [ 1 ];
+	number = mass -> ptr [ 1 ];
 	printf ("2nd = %d\n", number);	
 	
 	int_vector_free ( &mass );
@@ -123,7 +123,7 @@ int main ()
 	
 	int_vector_print ( mass, "mass" );
 	
-	number = mass -> start [ 2 ];
+	number = mass -> ptr [ 2 ];
 	printf ("3rd = %d\n", number);
 	
 	int_vector_free ( &mass );
@@ -152,25 +152,25 @@ int main ()
 	
 	int_vector_print ( mass, "mass" );
 	
-	number = mass -> start [ 1 ];
+	number = mass -> ptr [ 1 ];
 	printf ("2th = %d\n", number);
 	
-	number = mass -> start [ 2 ];
+	number = mass -> ptr [ 2 ];
 	printf ("3th = %d\n", number);
 	
-	number = mass -> start [ 3 ];
+	number = mass -> ptr [ 3 ];
 	printf ("4th = %d\n", number);	
 	
-	number = mass -> start [ 4 ];
+	number = mass -> ptr [ 4 ];
 	printf ("5th = %d\n", number);
 	
-	number = mass -> start [ 5 ];
+	number = mass -> ptr [ 5 ];
 	printf ("6th = %d\n", number);
 	
-	number = mass -> start [ 6 ];
+	number = mass -> ptr [ 6 ];
 	printf ("7th = %d\n", number);
 	
-	number = mass -> start [ 7 ];
+	number = mass -> ptr [ 7 ];
 	printf ("8th = %d\n", number);
 	
 	int_vector_free ( &mass );
