@@ -211,7 +211,7 @@ int int_vector_push_back ( IntVector *v, int item )
 		v -> used ++;
 		return 0;
 	}else{
-		printf ("Expanding vector from %lu to %lu\n", v -> size, v -> size * 2 );
+		printf ("Increasing vector from %lu to %lu\n", v -> size, v -> size * 2 );
 
 		v -> ptr = realloc ( v -> ptr, v -> size * 2 * sizeof ( int ) );
 		if ( v == NULL ) {
