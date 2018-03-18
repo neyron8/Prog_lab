@@ -24,11 +24,12 @@ IntVector *int_vector_new(size_t initial_capacity) //Создает массив
             return array;
 }
 		  
-void int_vector_free(IntVector *v) //Освобождает память, выделенную для вектора v.
+void int_vector_free(IntVector **v) //Освобождает память, выделенную для вектора v.
 {
-		free (v -> ptr);
-		v -> size = 0;
-		v -> used = 0;
+		free ((*v) -> ptr);
+	        free (*v);
+	        *v = NULL;
+		
 		printf ("\nVector is free\n");
 }
 
@@ -54,7 +55,7 @@ IntVector *int_vector_copy ( const IntVector *v ) // Указатель на к�
 	
 		array -> size = v -> size;
 	
-		array -> ptr = calloc ( v -> size , sizeof ( int ) );
+		array -> ptr = malloc ( v -> size * sizeof ( int ) );
 	
 		if ( array -> ptr == NULL ) {
 			printf ("\nError\n");
@@ -85,23 +86,116 @@ void int_vector_set_item ( IntVector *v, size_t index, int item ) // Присв�
 		if (index > v -> size - 1) {
 			printf ("Out of the vector\n");
 			return;
-        }
+                }
 		v -> ptr [index] = item;
+	      
+	        v -> used ++;
 }
 
 int int_vector_shrink_to_fit(IntVector *v) // Уменьшает емкость массива до его размера
-{     
-		
-		v -> size = v -> used;
+{     	
                 v -> ptr = realloc( v -> ptr, (v -> used) * sizeof(int));
 
 		if (v  == NULL ) {
 			printf("\nError\n");
                         return -1;
                 }
-		else {
+		
+	        v -> size = v -> used;
+	
                 return 0;
-		}
+		
 }
 
+int int_vector_reserve ( IntVector *v, size_t new_capacity )
+{
+	if ( new_capacity > v -> size ) {
+	
+		v -> start = realloc ( v -> start, new_capacity * sizeof ( int ) );
+		if ( v == NULL ) {
+			printf ("Error of reallocation\n");
+			return -1;
+		}
 		
+		v -> size = new_capacity;
+		
+		return 0;
+		
+	} 
+	else
+	    {
+			
+		printf ("New size smaller\n");	
+		return 0;
+		
+	    }
+	
+	return -1;
+}
+		
+
+void int_vector_pop_back ( IntVector *v )
+{
+	if ( v -> used == 0 ) {
+		printf ("Error\n");
+		return;
+	}
+
+	v -> start [ v -> used - 1] = 0;
+	v -> used --;
+}
+
+void int_vector_print ( IntVector *v )
+{
+
+	if ( v == NULL) {
+		printf ("Error: There is no array\n");
+		return;
+	}
+	
+	
+	for (size_t i = 0; i < v -> used; i++ ) {
+		printf (" %d", v -> start [i] );
+	}
+	
+}
+
+int int_vector_resize ( IntVector *v, size_t new_size )
+{	
+	if ( new_size > v -> size ) {
+	
+		v -> start = realloc ( v -> start, new_size * sizeof ( int ) );
+		if ( v == NULL ) {
+			printf ("Error\n");
+			return -1;
+		}
+		
+		v -> size = new_size;
+		
+		for ( size_t i = v -> used; i < v -> size; i++ ) {
+			v -> start [ i ] = 0;
+		}
+		
+		v -> used = new_size;
+		
+		return 0;	
+	}
+	
+	if ( new_size > v -> used && new_size <= v -> size ) {
+		
+		for ( size_t i = v -> used; i < new_size; i++ ) {
+			v -> start [ i ] = 0;
+		}
+		
+		v -> used = new_size;
+	
+	}
+	
+	if ( new_size < v -> used ) {
+	
+		return int_vector_shrink_to_fit ( v );
+		
+	}
+	
+	return -1;
+}
