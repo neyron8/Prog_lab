@@ -1,0 +1,328 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    size_t *ptr;
+    size_t size;
+    size_t used;
+} IntVector;
+
+IntVector *int_vector_new(size_t initial_capacity) //Создает массив нулевого размера.
+{
+	    IntVector *array = malloc (sizeof (IntVector));
+
+   	    if (array == NULL) {
+    	        printf ("\nError");
+                return NULL;
+	    }
+	    array -> size = initial_capacity;
+
+            array -> ptr = calloc (array -> size , sizeof ( int ));
+
+	    if (array -> ptr == NULL) {
+	        printf ("Error\n");
+                return NULL;
+	    }
+            array -> used = 0;
+            printf ("\n Vector is ready\n");
+            return array;
+}
+
+void int_vector_free(IntVector **v) //Освобождает память, выделенную для вектора v.
+{
+		free ((*v) -> ptr);
+	        free (*v);
+	        *v = NULL;
+
+		printf ("\nVector is free\n");
+}
+
+size_t int_vector_get_size (const IntVector *v) //	Размер вектора
+{
+		return v -> used;
+}
+
+size_t int_vector_get_capacity (const IntVector *v) //	Eмкость вектора
+{
+		return v -> size;
+}
+
+
+IntVector *int_vector_copy ( const IntVector *v ) // Указатель на копию вектора v.
+{
+		IntVector *array = malloc ( sizeof ( IntVector ) );
+
+		if ( array == NULL ) {
+			printf ("\nError\n");
+			return NULL;
+		}
+
+		array -> size = v -> size;
+
+		array -> ptr = malloc ( v -> size * sizeof ( int ) );
+
+		if ( array -> ptr == NULL ) {
+			printf ("\nError\n");
+			return NULL;
+		}
+
+		for ( size_t i = 0; i < (v -> size); i++ ) {
+			array -> ptr [i] = v -> ptr [i];
+		}
+
+		array -> used = v -> used;
+
+		return array;
+}
+
+int int_vector_get_item ( const IntVector *v, size_t index ) // элемент под номером index
+{
+		if (index > v -> size - 1) {
+			printf ("Out of Vector\n");
+			return 0;
+		}
+
+		return v -> ptr [index];
+}
+
+void int_vector_set_item ( IntVector *v, size_t index, int item ) // Присваивает элементу под номером index значение item.
+{
+		if (index > v -> size - 1) {
+			printf ("Out of the vector\n");
+			return;
+                }
+		v -> ptr [index] = item;
+
+	        v -> used ++;
+}
+
+int int_vector_shrink_to_fit(IntVector *v) // Уменьшает емкость массива до его размера
+{
+                v -> ptr = realloc( v -> ptr, (v -> used) * sizeof(int));
+
+		if (v  == NULL ) {
+			printf("\nError\n");
+                        return -1;
+                }
+
+	        v -> size = v -> used;
+
+                return 0;
+
+}
+
+int int_vector_reserve ( IntVector *v, size_t new_capacity ) // Изменить емкость массива.
+{
+	if ( new_capacity > v -> size ) {
+
+		v -> ptr = realloc ( v -> ptr, new_capacity * sizeof ( int ) );
+		if ( v == NULL ) {
+			printf ("Error of reallocation\n");
+			return -1;
+		}
+
+		v -> size = new_capacity;
+
+		return 0;
+
+	}
+	else
+	    {
+
+		printf ("New size smaller\n");
+		return 0;
+
+	    }
+
+	return -1;
+}
+
+
+void int_vector_pop_back ( IntVector *v ) // Удаляет последний элемент из массива.
+{
+	if ( v -> used == 0 ) {
+		printf ("Error\n");
+		return;
+	}
+
+	v -> ptr [ v -> used - 1] = 0;
+	v -> used --;
+}
+
+void int_vector_print ( IntVector *v ) //  Печатает массив
+{
+
+	if ( v == NULL) {
+		printf ("Error: There is no array\n");
+		return;
+	}
+
+
+	for (size_t i = 0; i < v -> used; i++ ) {
+		printf (" %d", v -> ptr [i] );
+	}
+
+}
+
+int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет размер массива.
+{
+	if ( new_size > v -> size ) {
+
+		v -> ptr = realloc ( v -> ptr, new_size * sizeof ( int ) );
+		if ( v == NULL ) {
+			printf ("Error\n");
+			return -1;
+		}
+
+		v -> size = new_size;
+
+		for ( size_t i = v -> used; i < v -> size; i++ ) {
+			v -> ptr [ i ] = 0;
+		}
+
+		v -> used = new_size;
+
+		return 0;
+	}
+
+	if ( new_size > v -> used && new_size <= v -> size ) {
+
+		for ( size_t i = v -> used; i < new_size; i++ ) {
+			v -> ptr [ i ] = 0;
+		}
+
+		v -> used = new_size;
+
+	}
+
+	if ( new_size < v -> used ) {
+
+		return int_vector_shrink_to_fit ( v );
+
+	}
+
+	return -1;
+}
+
+int int_vector_push_back ( IntVector *v, int item )
+{
+	if ( v -> used + 1 < v -> size ) {
+		v -> ptr [ v -> used ] = item;
+		v -> used ++;
+		return 0;
+	}else{
+		printf ("Expanding vector from %lu to %lu\n", v -> size, v -> size * 2 );
+
+		v -> ptr = realloc ( v -> ptr, v -> size * 2 * sizeof ( int ) );
+		if ( v == NULL ) {
+			printf ("Error of reallocation\n");
+			return -1;
+		}
+
+		v -> size = v -> size * 2;
+		v -> ptr [ v -> used ] = item;
+		v -> used ++;
+		return 0;
+	}
+	return -1;
+}
+
+
+
+int main ()
+{
+	int flag;
+	printf ("Vector with 4 elements(empty)\n");
+	IntVector *mass = int_vector_new ( 4 );
+
+	int_vector_print ( mass );
+
+
+	int_vector_set_item ( mass, 0, 1 );
+        int_vector_set_item ( mass, 1, 2 );
+        int_vector_set_item ( mass, 2, 3 );
+        printf ("\nVector with 4 elements(1 of them empty)\n");
+
+	int_vector_print ( mass );
+
+
+	printf ("\nCopy\n");
+
+	IntVector *copy = int_vector_copy ( mass );
+	int_vector_print ( copy );
+        printf("\n");
+
+	printf("Size of vector=%d\n",int_vector_get_size (mass));
+        printf("Capacity of vector=%d\n",int_vector_get_capacity (mass));
+
+
+        int_vector_shrink_to_fit(mass);
+
+
+        printf("Size of vector after shrink=%d\n",int_vector_get_size (mass));
+        printf("Capacity of vector after shrink=%d\n",int_vector_get_capacity (mass));
+
+
+        int_vector_free(&mass);
+
+        mass = int_vector_new ( 4 );
+	int_vector_set_item ( mass, 0, 1 );
+        int_vector_set_item ( mass, 1, 2 );
+        int_vector_set_item ( mass, 2, 3 );
+
+
+        int_vector_print ( mass );
+	printf("\nDeleting last element of array\n");
+	int_vector_pop_back ( mass );
+	printf("\nArray after deleting\n");
+        int_vector_print ( mass );
+
+
+	printf("\n");
+
+
+        int_vector_get_item ( mass , 0);
+        int_vector_get_item ( mass , 1);
+        int_vector_get_item ( mass , 2);
+
+
+        printf("Resizing t0 6\n");
+	int_vector_resize ( mass, 6 );
+	printf("Array after resizing t0 6\n");
+        int_vector_print ( mass );
+
+
+	printf("\n");
+
+
+	printf("Capacity   %d\n",mass -> size);
+	printf("Size of array  %d\n",mass -> used);
+	printf("\n");
+
+
+	int_vector_push_back ( mass, 12);
+	int_vector_push_back ( mass, 15);
+	int_vector_print ( mass );
+
+	printf("\n");
+
+    printf("Capacity  %d\n",mass->size);
+	printf("Size  %d\n",mass->used);
+
+	printf ("%d ",int_vector_get_item ( mass, 0  ));
+	printf ("%d ",int_vector_get_item ( mass, 1  ));
+	printf ("%d ",int_vector_get_item ( mass, 2  ));
+    printf ("%d ",int_vector_get_item ( mass, 3  ));
+    printf ("%d ",int_vector_get_item ( mass, 4  ));
+    printf ("%d ",int_vector_get_item ( mass, 5  ));
+    printf ("%d ",int_vector_get_item ( mass, 6  ));
+    printf ("%d ",int_vector_get_item ( mass, 7  ));
+
+    printf("\n");
+
+    int_vector_reserve ( mass, 30 );
+    printf("Capacity  %d\n",mass->size);
+	printf("Size  %d\n",mass->used);
+	int_vector_reserve ( mass, 1 );
+	return 0;
+}
