@@ -206,12 +206,12 @@ int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет ра
 
 int int_vector_push_back ( IntVector *v, int item )
 {
-	if ( v -> used + 1 < v -> size ) {
+	if ( v -> used < v -> size ) {
 		v -> ptr [ v -> used ] = item;
 		v -> used ++;
 		return 0;
 	}else{
-		printf ("Increasing vector from %lu to %lu\n", v -> size, v -> size * 2 );
+		printf ("Expanding vector from %lu to %lu\n", v -> size, v -> size * 2 );
 
 		v -> ptr = realloc ( v -> ptr, v -> size * 2 * sizeof ( int ) );
 		if ( v == NULL ) {
@@ -239,9 +239,9 @@ int main ()
 
 
 	int_vector_set_item ( mass, 0, 1 );
-        int_vector_set_item ( mass, 1, 2 );
-        int_vector_set_item ( mass, 2, 3 );
-        printf ("\nVector with 4 elements(1 of them empty)\n");
+    int_vector_set_item ( mass, 1, 2 );
+    int_vector_set_item ( mass, 2, 3 );
+    printf ("\nVector with 4 elements(1 of them empty)\n");
 
 	int_vector_print ( mass );
 
@@ -250,46 +250,45 @@ int main ()
 
 	IntVector *copy = int_vector_copy ( mass );
 	int_vector_print ( copy );
-        printf("\n");
+    printf("\n");
 
 	printf("Size of vector=%d\n",int_vector_get_size (mass));
-        printf("Capacity of vector=%d\n",int_vector_get_capacity (mass));
+    printf("Capacity of vector=%d\n",int_vector_get_capacity (mass));
+
+    int_vector_shrink_to_fit(mass);
 
 
-        int_vector_shrink_to_fit(mass);
+    printf("Size of vector after shrink=%d\n",int_vector_get_size (mass));
+    printf("Capacity of vector after shrink=%d\n",int_vector_get_capacity (mass));
 
+    int_vector_free(&mass);
 
-        printf("Size of vector after shrink=%d\n",int_vector_get_size (mass));
-        printf("Capacity of vector after shrink=%d\n",int_vector_get_capacity (mass));
-
-
-        int_vector_free(&mass);
-
-        mass = int_vector_new ( 4 );
+    mass = int_vector_new ( 4 );
 	int_vector_set_item ( mass, 0, 1 );
-        int_vector_set_item ( mass, 1, 2 );
-        int_vector_set_item ( mass, 2, 3 );
+    int_vector_set_item ( mass, 1, 2 );
+    int_vector_set_item ( mass, 2, 3 );
 
 
-        int_vector_print ( mass );
+
+    int_vector_print ( mass );
 	printf("\nDeleting last element of array\n");
 	int_vector_pop_back ( mass );
 	printf("\nArray after deleting\n");
-        int_vector_print ( mass );
+    int_vector_print ( mass );
 
 
 	printf("\n");
 
 
-        int_vector_get_item ( mass , 0);
-        int_vector_get_item ( mass , 1);
-        int_vector_get_item ( mass , 2);
+    int_vector_get_item ( mass , 0);
+    int_vector_get_item ( mass , 1);
+    int_vector_get_item ( mass , 2);
 
 
-        printf("Resizing t0 6\n");
+    printf("Resizing t0 6\n");
 	int_vector_resize ( mass, 6 );
 	printf("Array after resizing t0 6\n");
-        int_vector_print ( mass );
+    int_vector_print ( mass );
 
 
 	printf("\n");
@@ -332,7 +331,7 @@ int main ()
 
 	IntVector *h;
 	h = int_vector_new(4);
-    
+
     int_vector_set_item ( h, 5, 3 );
 
 	return 0;
