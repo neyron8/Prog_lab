@@ -330,5 +330,11 @@ int main ()
 	int_vector_free(&mass);
 	int_vector_print ( mass );
 
+	IntVector *h;
+	h = int_vector_new(4);
+    
+    int_vector_set_item ( h, 5, 3 );
+
 	return 0;
 }
+
