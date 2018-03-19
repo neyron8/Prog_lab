@@ -201,21 +201,21 @@ int int_vector_resize ( IntVector *v, size_t new_size ) // Изменяет ра
 	
 int int_vector_push_back ( IntVector *v, int item )
 {
-	if ( v -> used <= v -> size ) {
+	if ( v -> used + 1 < v -> size ) {
 		v -> ptr [ v -> used ] = item;
 		v -> used ++;
 		return 0;
-	}else{
+	} else {
 		
-		v -> ptr = realloc ( v -> ptr, v -> size * 2 * sizeof ( int ) );
+		
+		v -> start = realloc ( v -> start, v -> size * 2 * sizeof ( int ) );
 		if ( v == NULL ) {
-			printf ("Error\n");
+			printf ("Error");
 			return -1;
 		}
 		
-		v -> size = (v -> size) * 2;
-                printf("%d", v->size);
-		v -> ptr [ v -> used ] = item;
+		v -> size = v -> size * 2;
+		v -> start [ v -> used ] = item;
 		v -> used ++;
 		return 0;
 	}
