@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <string.h>
+
+int print_smth_in_file (const char * string) {
+        int digit =15;
+	FILE *in;
+	in = fopen (string, "w");
+	if (in == NULL)
+		printf("\nError of opening\n");
+	fprintf (in, "%d",digit);
+	fclose(in);
+	return 0;
+}
+
+ int main (int argc, char * argv[]) {
+         int print_smth_in_file (argv[1]);
+         return 0;
+ }
