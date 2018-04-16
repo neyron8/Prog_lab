@@ -1,13 +1,10 @@
 #include <stdio.h>
-#include "test.h"
+#include "func.h"
 
-int main() {
-	
-	int l,u;
-	printf("Type your decimal number:");
-	scanf("%d\n",&l);
-	u = binary(l);
-	printf("%d", u);
-
+int main()
+{
+	int array[] = {1 , 3 , 5};
+	int sum = 0;
+	printf("%d",sum_array (array,3, sum, 0));
 	return 0;
 }
