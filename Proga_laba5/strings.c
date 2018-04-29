@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "func.h"
+#include "strings.h"
 
 void remove_sim(char *s)
 {
