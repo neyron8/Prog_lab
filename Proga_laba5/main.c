@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "func.h"
+#include "strings.h"
 
 int main() {
     char stro[200] = {"C:\\Windows\\system32+E:\\Distrib\\msoffice.exe+/home/alex/prog/lab4.c"};
