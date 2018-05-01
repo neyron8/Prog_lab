@@ -203,7 +203,7 @@ int process(char *str) {
               tolow(*(po + i),0);
               scopy(syg2, tmp);
               scat(tmp, *(po + i));
-              printf("POSLE scat  %s\n", tmp);
+              
               plus(syg1);
               scat(syg1,tmp);
      
