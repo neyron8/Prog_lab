@@ -20,5 +20,6 @@ int change(char *s, char sim, char zam);
 int sch(char str[], char sim);
 void remove_sim(char *s);
 int window (char *s);
+int scspn(char str[], char nsym[]);
 
 #endif
