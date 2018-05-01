@@ -1,6 +1,7 @@
 #ifndef FUNC_H
 #define FUNC_C
 
+void double_rem (char *s, char sim);
 void tolow (char *s, int i);
 int scat(char *s1, char *s2);
 int process(char *str);
@@ -18,5 +19,6 @@ int stok(char str[], char delim, char *ptr[]);
 int change(char *s, char sim, char zam);
 int sch(char str[], char sim);
 void remove_sim(char *s);
+int window (char *s);
 
 #endif

@@ -2,10 +2,30 @@
 #include <stdlib.h>
 #include "strings.h"
 
+void double_rem (char *s, char sim)
+{
+  int i = 0;
+  for(i; i < slen(s); i++){
+    if(s[i] == sim && s[i + 1] == sim){
+      s[i] = ' ';
+    }
+  }
+}
+
+int window (char *s)
+{
+  if ((s[0] >= 'A' && s[0] <= 'Z') || (s[0] >= 'a' && s[0] <= 'z')){
+    return 1;
+  }
+  return 0;
+}
+
+
 void remove_sim(char *s)
 {
-    char res[200];
+    char res[2000] = {""};
     int i = 0, k = 0;
+
 
     for (i = 0; i < slen(s); i++) {
         if (s[i] != ' ') {
@@ -59,7 +79,7 @@ int stok(char str[], char delim, char *ptr[])
 }
 
 int suntok(char str[], char delim, char *ptr[], int cnt)
-{ // cnt dlina ptr
+{
     int i;
     for (i = 1; i < cnt; i++) {
         *(ptr[i] - 1) = delim;
@@ -162,20 +182,41 @@ int sstr(char txt[], char p[])
 int process(char *str) {
     int flag = 0;
     char *po[260];
-    char syg1[200] = {"/cygdrive/"};
-    char syg2[200] = {"+/cygdrive/"};
+    char syg1[2000]= {""};
+    char syg2[200] = {"/cygdrive/"};
+    char tmp[200] = {""};
     input(str);
     change(str, '\\', '/');
+
     change(str, ':', '/');
+
     remove_sim(str);
-    stok(str, '+', po);
-    tolow(*(po + 1),0);
-    tolow(*po,0);
-    scat(syg1, *po);
-    scat(syg2, *(po + 1));
-    scat(syg1, syg2);
-    plus(syg1);
-    scat(syg1, *(po + 2));
+    double_rem (str, '/');
+    remove_sim(str);
+
+    int i = 0, count;
+    count = stok(str, '+', po);
+ 
+
+    for (i; i < count; i++){
+        if ( window(*(po + i)) == 1 ){
+              tolow(*(po + i),0);
+              scopy(syg2, tmp);
+              scat(tmp, *(po + i));
+              printf("POSLE scat  %s\n", tmp);
+              plus(syg1);
+              scat(syg1,tmp);
+     
+        }
+        if ( window(*(po + i)) == 0 ){
+              plus(syg1);
+       
+              scat(syg1, *(po + i));
+              
+
+        }
+    }
+  
     output(syg1, 0);
     return 0;
 }
@@ -189,5 +230,7 @@ int scat(char *s1, char *s2) {
 
 void tolow (char *s, int i)
 {
-    s[i] = s[i] + ('a' - 'A');
+    if((s[i] >= 'A') && (s[i] <= 'Z')){
+        s[i] = s[i] + ('a' - 'A');
+    }
 }
