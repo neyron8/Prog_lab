@@ -147,6 +147,13 @@ int check(char *str)
     if (scspn(str, nsym) == -2) {
         return 2;
     }
+    char *po[260];
+    int count = stok(str, '+', po);
+    int i = 0;
+    for (i; i < count; i++) {
+        correct(*(po + i));
+    }
+    suntok(str, '+', po,count);
     return 0;
 }
 
@@ -173,14 +180,6 @@ int input(char *str)
         printf("String is not correct\n");
         exit(1);
     }
-    char *po[260];
-    int count = stok(str, '+', po);
-    int i = 0;
-    for (i; i < count; i++) {
-        correct(*(po + i));
-    }
-    suntok(str, '+', po,count);
-
     printf("String is correct\n");
     return 0;
 }
@@ -264,26 +263,30 @@ void correct (char *str)
 {
     int i = 0, counter1 = 0, counter2 = 0;
     int length = slen(str);
-    if (length > 260){
-        printf("TOO LARGE STRING\n");
-        exit(2);
-    }
     for (i; i < length; i++){
         if (str[i] == '/'){
             counter1++;
+            if (str[i + 1] == '\0' || str[i + 1] == '\n'){
+                printf("ERROR :Void after slash\n");
+                exit(1);
+            }
         }
         if (str[i] == '\\'){
             counter2++;
         }
     }
     if ((counter1 == counter2) || (counter1 > 0 && counter2 > 0) ){
-        printf("ERROR OF INPUT ( Two types of slash at string or first symbol at path) \n");
-        exit(3);
+        printf("ERROR OF INPUT ( Error with slash at string or  at first symbol at path) \n");
+        exit(2);
+    }
+    if (length > 260){
+        printf("TOO LARGE STRING\n");
+        exit(1);
     }
     if (((str[0] >= 'A') && (str[0] <= 'Z')) || str[0] == '/'){
         return 0;
     } else {
-        printf("INCORRECT STRING (It can be first symbol of path)\n");
-        exit(1);
+        printf("INCORRECT STRING first symbol of path\n");
+        exit(2);
     }
 }
