@@ -140,7 +140,7 @@ int sspn(char *s, char *dop)
 int check(char *str)
 {
     int flag = 0;
-    char nsym[] = {"*&?|<>"};
+    char nsym[] = {"*&?|<>«"};
     if (slen(str) > 260) {
         return 1;
     }
@@ -173,6 +173,14 @@ int input(char *str)
         printf("String is not correct\n");
         exit(1);
     }
+    char *po[260];
+    int count = stok(str, '+', po);
+    int i = 0;
+    for (i; i < count; i++) {
+        correct(*(po + i));
+    }
+    suntok(str, '+', po,count);
+
     printf("String is correct\n");
     return 0;
 }
@@ -209,6 +217,7 @@ int process(char *str)
     char syg1[2000] = {""};
     char syg2[200] = {"/cygdrive/"};
     char tmp[200] = {""};
+    remove_sim(str);
     input(str);
     change(str, '\\', '/');
     change(str, ':', '/');
@@ -249,5 +258,32 @@ void tolow(char *s, int i)
 {
     if ((s[i] >= 'A') && (s[i] <= 'Z')) {
         s[i] = s[i] + ('a' - 'A');
+    }
+}
+void correct (char *str)
+{
+    int i = 0, counter1 = 0, counter2 = 0;
+    int length = slen(str);
+    if (length > 260){
+        printf("TOO LARGE STRING\n");
+        exit(2);
+    }
+    for (i; i < length; i++){
+        if (str[i] == '/'){
+            counter1++;
+        }
+        if (str[i] == '\\'){
+            counter2++;
+        }
+    }
+    if ((counter1 == counter2) || (counter1 > 0 && counter2 > 0) ){
+        printf("ERROR OF INPUT ( Two types of slash at string or first symbol at path) \n");
+        exit(3);
+    }
+    if (((str[0] >= 'A') && (str[0] <= 'Z')) || str[0] == '/'){
+        return 0;
+    } else {
+        printf("INCORRECT STRING (It can be first symbol of path)\n");
+        exit(1);
     }
 }
