@@ -5,7 +5,7 @@ void double_rem (char *s, char sim);
 void tolow (char *s, int i);
 int scat(char *s1, char *s2);
 int process(char *str);
-int sstr(char txt[], char p[]);
+void correct (char *str);
 void plus(char *k);
 int input(char *str);
 int output(char *str, int end);
